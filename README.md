@@ -14,6 +14,8 @@ After cloning the project, install the dependencies
 composer install
 ```
 
+### Setting up
+
 Generate a key for the application
 
 ```
@@ -22,21 +24,27 @@ php artisan key:generate
 
 - Note: You need to copy ``.env.example`` content in a ``.env`` file
 
+Create the symbolic link for storage
+
+```
+php artisan storage:link
+```
+
+Create a database named ``meal_orders``. Then run migrations and seed tables
+
+```
+php artisan migrate --seed
+```
+
 ## Testing
 
-Create a ``database.slqite`` file in the database directory. Then run migrations and seed tables
-
-```
-php artisan migrate:fresh --seed --env=testing
-```
-
-Now run the tests with:
+Create a ``database.sqlite`` file in the database directory. Then run the tests:
 
 ```
 php artisan test
 ```
 
-# Demo in Postman
+### Demo in Postman
 
 Check the API in:
 
