@@ -14,7 +14,7 @@ class MealFactory extends Factory
     {
         return [
             'name' => Str::ucfirst((string)$this->faker->words(2, true)),
-            'description' => $this->faker->text(),
+            'description' => $this->faker->text(191),
             'price' => $this->faker->randomFloat(2, 0, 50),
         ];
     }
