@@ -19,7 +19,7 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'amount' => 'decimal',
+        'amount' => 'float',
     ];
 
     protected $attributes = [

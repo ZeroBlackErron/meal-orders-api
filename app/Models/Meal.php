@@ -17,6 +17,6 @@ class Meal extends Model
     ];
 
     protected $casts = [
-        'price' => 'decimal',
+        'price' => 'float',
     ];
 }
