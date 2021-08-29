@@ -9,7 +9,7 @@ class MealController extends Controller
 {
     public function index()
     {
-        $meals = Meal::query()->paginate(10);
+        $meals = Meal::with('media')->paginate(10);
 
         return MealResource::collection($meals);
     }

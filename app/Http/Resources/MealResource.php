@@ -10,6 +10,7 @@ class MealResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'photo' => $this->resource->getFirstMediaUrl('photos'),
             'name' => $this->resource->name,
             'description' => $this->resource->description,
             'currency' => 'S/.',
