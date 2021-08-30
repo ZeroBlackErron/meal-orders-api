@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -12,11 +13,12 @@ class LoginTest extends TestCase
 
     public function test_successful_login()
     {
-        $user = User::factory()->createOne();
+        $randomPassword = Str::random(8);
+        $user = User::factory()->createOne(['password' => $randomPassword]);
 
         $loginData = [
             'email' => $user->email,
-            'password' => 'password',
+            'password' => $randomPassword,
         ];
 
         $response = $this->postJson('/api/login', $loginData);

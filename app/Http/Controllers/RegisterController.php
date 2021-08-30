@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserTokenResource;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Services\AuthService;
 
 class RegisterController extends Controller
 {
+    private $service;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->service = $authService;
+    }
+
     public function __invoke(RegisterRequest $request)
     {
-        $userData = $request->validated();
-        $userData['password'] = Hash::make($userData['password']);
-
-        /** @var User $user */
-        $user = User::create($userData);
-        $token = $user->createToken('login')->plainTextToken;
+        $user = $this->service->register($request->validated());
+        $token = $this->service->generateToken($user);
 
         return UserTokenResource::make($user, $token);
     }
