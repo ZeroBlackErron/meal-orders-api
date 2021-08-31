@@ -7,15 +7,20 @@ use App\Http\Resources\OrderResource;
 use App\Models\Meal;
 use App\Models\User;
 use App\Services\OrderService;
+use App\Services\UserService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    private $service;
-
-    public function __construct(OrderService $orderService)
+    public function index(Request $request)
     {
-        $this->service = $orderService;
+        $user = Auth::user();
+        $pagination = $request->query('pagination', 10);
+
+        $orders = (new UserService())->setModel($user)->getOrders($pagination);
+
+        return OrderResource::collection($orders);
     }
 
     public function store(CreateOrderRequest $request)
@@ -24,7 +29,7 @@ class OrderController extends Controller
         $user = Auth::user();
         $meals = Meal::findMany($request->json('meals.*.id'));
 
-        $orderService = $this->service->create($user)
+        $orderService = (new OrderService())->create($user)
             ->addMeals($meals)
             ->updateAmount();
 

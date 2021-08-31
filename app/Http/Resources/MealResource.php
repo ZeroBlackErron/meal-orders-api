@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class MealResource extends JsonResource
 {
+    public static $wrap = 'meal';
+
     public function toArray($request)
     {
         return [

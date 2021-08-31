@@ -10,6 +10,6 @@ Route::post('login', LoginController::class);
 Route::post('register', RegisterController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('meals', [MealController::class, 'index']);
-    Route::post('orders', [OrderController::class, 'store']);
+    Route::apiResource('meals', MealController::class)->only(['index', 'show']);
+    Route::apiResource('orders', OrderController::class)->only(['index', 'store']);
 });

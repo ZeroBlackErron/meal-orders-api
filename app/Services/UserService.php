@@ -16,4 +16,19 @@ class UserService extends ModelService
     {
         return (new UserRepository())->make($attributes)->save();
     }
+
+    public function getOrders($pagination)
+    {
+        /** @var User $user */
+        $user = $this->getModel();
+        $builder = $user->orders()->withCount('mealOrders');
+
+        if ($pagination) {
+            $orders = $builder->paginate($pagination);
+        } else {
+            $orders = $builder->get();
+        }
+
+        return $orders;
+    }
 }

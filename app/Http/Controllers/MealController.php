@@ -13,4 +13,9 @@ class MealController extends Controller
 
         return MealResource::collection($meals);
     }
+
+    public function show(Meal $meal)
+    {
+        return MealResource::make($meal);
+    }
 }

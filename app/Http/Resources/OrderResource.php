@@ -17,6 +17,7 @@ class OrderResource extends JsonResource
             'customer_name' => $this->resource->customer_name,
             'customer_email' => $this->resource->customer_email,
             'meal_orders' => MealOrderResource::collection($this->whenLoaded('mealOrders')),
+            'meal_orders_count' => $this->resource->meal_orders_count,
         ];
     }
 }
