@@ -30,7 +30,7 @@ abstract class ModelRepository
         return $this;
     }
 
-    public function create()
+    public function save()
     {
         $this->getModel()->save();
 

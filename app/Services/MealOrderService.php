@@ -15,6 +15,6 @@ class MealOrderService extends ModelService
         (new MealOrderRepository())->make($mealOrderData->toArray())
             ->associateMeal($meal)
             ->associateOrder($order)
-            ->create();
+            ->save();
     }
 }

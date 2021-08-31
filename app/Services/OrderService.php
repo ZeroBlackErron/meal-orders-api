@@ -19,7 +19,7 @@ class OrderService extends ModelService
     {
         $order = (new OrderRepository())->make()
             ->associateCustomer($user)
-            ->create();
+            ->save();
 
         $this->setModel($order);
 
