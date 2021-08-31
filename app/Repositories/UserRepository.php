@@ -4,13 +4,12 @@ namespace App\Repositories;
 
 use App\Models\User;
 
-class UserRepository
+class UserRepository extends ModelRepository
 {
-    public function create(array $attributes)
+    public function make(array $attributes)
     {
-        $user = new User();
-        $user->fill($attributes)->save();
+        $this->model = User::make($attributes);
 
-        return $user;
+        return $this;
     }
 }
