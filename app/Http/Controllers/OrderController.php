@@ -5,39 +5,30 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Meal;
-use App\Models\MealOrder;
-use App\Models\Order;
+use App\Models\User;
+use App\Services\OrderService;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    private $service;
+
+    public function __construct(OrderService $orderService)
+    {
+        $this->service = $orderService;
+    }
+
     public function store(CreateOrderRequest $request)
     {
+        /** @var User $user */
         $user = Auth::user();
-
-        $orderData = [
-            'customer_name' => "$user->name $user->last_name",
-            'customer_email' => $user->email,
-        ];
-
         $meals = Meal::findMany($request->json('meals.*.id'));
 
-        $orderData['amount'] = $meals->sum('price');
+        $orderService = $this->service->create($user)
+            ->addMeals($meals)
+            ->updateAmount();
 
-        /** @var Order $order */
-        $order = Order::make($orderData);
-        $order->customer()->associate($user);
-        $order->save();
-
-        $meals->each(function (Meal $meal) use ($order) {
-            /** @var MealOrder $mealOrder */
-            $mealOrder = MealOrder::make($meal->replicate()->toArray());
-            $mealOrder->meal()->associate($meal);
-            $mealOrder->order()->associate($order);
-            $mealOrder->save();
-        });
-
-        $order->load('mealOrders');
+        $order = $orderService->getModel()->load('mealOrders');
 
         return OrderResource::make($order);
     }

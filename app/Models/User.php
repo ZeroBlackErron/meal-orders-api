@@ -23,6 +23,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function getFullNameAttribute()
+    {
+        return "$this->name $this->last_name";
+    }
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
